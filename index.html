@@ -1456,6 +1456,145 @@
 			height: 3px;
 			background: linear-gradient(90deg, transparent, var(--green), transparent)
 		}
+
+		/* ═══════════════════════════
+   S13 — CONTACTS
+═══════════════════════════ */
+		#s13 {
+			background: var(--white)
+		}
+
+		#s13 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 5% 8%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			text-align: center
+		}
+
+		#s13 .logo-big {
+			height: 3.5em;
+			width: auto;
+			margin-bottom: 1.5em
+		}
+
+		#s13 h2 {
+			font-size: 2.2em;
+			font-weight: 800;
+			color: var(--text);
+			margin-bottom: .4em
+		}
+
+		#s13 .tagline {
+			font-size: .82em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.7;
+			max-width: 55%;
+			margin-bottom: 3%
+		}
+
+		#s13 .contact-grid {
+			display: flex;
+			gap: 3%;
+			width: 80%;
+			margin-bottom: 3%
+		}
+
+		#s13 .contact-card {
+			flex: 1;
+			background: var(--gray-light);
+			border: 1px solid var(--gray-border);
+			border-radius: var(--radius);
+			padding: 3.5% 3%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: .4em
+		}
+
+		#s13 .contact-icon {
+			font-size: 1.6em;
+			margin-bottom: .2em
+		}
+
+		#s13 .contact-label {
+			font-size: .6em;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .1em;
+			color: var(--text-light)
+		}
+
+		#s13 .contact-value {
+			font-size: .85em;
+			font-weight: 700;
+			color: var(--text)
+		}
+
+		#s13 .contact-value a {
+			color: var(--green-dark);
+			text-decoration: none
+		}
+
+		#s13 .footer-note {
+			font-size: .62em;
+			font-weight: 500;
+			color: var(--gray);
+			margin-top: 1em
+		}
+
+		#s13 .footer-note em {
+			color: var(--green-dark);
+			font-style: normal
+		}
+
+		#s13 .founder {
+			display: flex;
+			align-items: center;
+			gap: 1.2em;
+			margin-bottom: 2.5%
+		}
+
+		#s13 .founder-photo {
+			width: 5em;
+			height: 5em;
+			border-radius: 50%;
+			background: var(--gray-light);
+			border: 2px solid var(--gray-border);
+			overflow: hidden;
+			flex-shrink: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: var(--gray);
+			font-size: 1.8em
+		}
+
+		#s13 .founder-photo img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover
+		}
+
+		#s13 .founder-info {
+			text-align: left
+		}
+
+		#s13 .founder-name {
+			font-size: 1.1em;
+			font-weight: 800;
+			color: var(--text)
+		}
+
+		#s13 .founder-role {
+			font-size: .7em;
+			font-weight: 600;
+			color: var(--text-light)
+		}
 	</style>
 </head>
 
@@ -1996,11 +2135,48 @@
 			</div>
 		</div>
 
+		<!-- S13 — CONTACTS -->
+		<div class="slide" id="s13">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="founder au">
+					<div class="founder-photo">
+						<!-- Replace src with actual photo -->
+						<img src="muhammadsaid.jpg" alt="Muhammadsaid" />
+					</div>
+					<div class="founder-info">
+						<div class="founder-name">Muhammadsaid</div>
+						<div class="founder-role">Asoschi, Tilmoch.ai</div>
+					</div>
+				</div>
+				<h2 class="au">Bogʻlaning</h2>
+				<p class="tagline au">Savollaringiz bormi? Biz bilan bogʻlaning — bepul konsultatsiya va sinov imkoniyatini taqdim etamiz.</p>
+				<div class="contact-grid">
+					<div class="contact-card au">
+						<div class="contact-icon">📧</div>
+						<div class="contact-label">Elektron pochta</div>
+						<div class="contact-value"><a href="mailto:info@tilmoch.ai">info@tilmoch.ai</a></div>
+					</div>
+					<div class="contact-card au">
+						<div class="contact-icon">🌐</div>
+						<div class="contact-label">Veb-sayt</div>
+						<div class="contact-value"><a href="https://tilmoch.ai">tilmoch.ai</a></div>
+					</div>
+					<div class="contact-card au">
+						<div class="contact-icon">📍</div>
+						<div class="contact-label">Manzil</div>
+						<div class="contact-value">Toshkent, Oʻzbekiston</div>
+					</div>
+				</div>
+				<div class="footer-note au"><em>Tilmoch.ai</em> — Markaziy Osiyo tillari uchun xususiy AI modellar</div>
+			</div>
+		</div>
+
 	</div>
 
 	<!-- NAV -->
 	<div id="pbar"></div>
-	<div id="counter">1 / 12</div>
+	<div id="counter">1 / 13</div>
 	<button class="nbtn" id="np" aria-label="Oldingi"><svg width="14" height="14" viewBox="0 0 24 24">
 			<polyline points="15 18 9 12 15 6" />
 		</svg></button>
