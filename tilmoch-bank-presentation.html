@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Tilmoch.ai — Bank yechimlari</title>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap"
+		rel="stylesheet" />
+	<style>
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0
+		}
+
+		:root {
+			--green: #34C759;
+			--green-dark: #2AAE4A;
+			--green-light: #E8FAF0;
+			--green-bg: #F0FBF4;
+			--navy: #1A2332;
+			--navy-mid: #243448;
+			--navy-light: #2D4055;
+			--gold: #E5A913;
+			--gold-light: #FFF3D0;
+			--white: #FFFFFF;
+			--gray: #7A8999;
+			--gray-light: #F5F7FA;
+			--gray-border: #E2E8F0;
+			--text: #1A2332;
+			--text-light: #5A6B7E;
+			--radius: 16px;
+			--radius-sm: 12px;
+			--radius-xs: 8px;
+		}
+
+		html,
+		body {
+			width: 100%;
+			height: 100%;
+			background: #0F1620;
+			font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+			overflow: hidden;
+			-webkit-font-smoothing: antialiased
+		}
+
+		/* ── DECK ── */
+		.deck {
+			width: 100vw;
+			height: 100vh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			position: relative
+		}
+
+		.slide {
+			position: absolute;
+			width: min(177.78vh, 100vw);
+			height: min(56.25vw, 100vh);
+			overflow: hidden;
+			border-radius: 4px;
+			opacity: 0;
+			transform: translateX(40px) scale(0.98);
+			transition: opacity .45s cubic-bezier(.4, 0, .2, 1), transform .45s cubic-bezier(.4, 0, .2, 1);
+			pointer-events: none;
+			font-size: clamp(11px, 1.6vw, 24px);
+		}
+
+		.slide.active {
+			opacity: 1;
+			transform: none;
+			pointer-events: all
+		}
+
+		.slide.exit {
+			opacity: 0;
+			transform: translateX(-40px) scale(0.98)
+		}
+
+		/* ── PATTERNS ── */
+		.pat-green {
+			background-image:
+				radial-gradient(circle at 20% 80%, rgba(52, 199, 89, .06) 0%, transparent 50%),
+				radial-gradient(circle at 80% 20%, rgba(52, 199, 89, .04) 0%, transparent 50%);
+		}
+
+		.pat-navy {
+			background-image:
+				radial-gradient(circle at 15% 85%, rgba(52, 199, 89, .08) 0%, transparent 50%),
+				radial-gradient(circle at 85% 15%, rgba(229, 169, 19, .05) 0%, transparent 50%);
+		}
+
+		/* ── BRAND BAR ── */
+		.brand {
+			position: absolute;
+			top: 4%;
+			right: 5%;
+			display: flex;
+			align-items: center;
+			z-index: 10
+		}
+
+		.brand img {
+			height: 2em;
+			width: auto
+		}
+
+		/* ── COMMON ── */
+		.eyebrow {
+			display: none
+		}
+
+		h1,
+		h2 {
+			letter-spacing: -.03em;
+			line-height: 1.1
+		}
+
+		h1 em,
+		h2 em {
+			color: var(--green);
+			font-style: normal
+		}
+
+		/* ── CARD SYSTEM ── */
+		.card {
+			border-radius: var(--radius);
+			overflow: hidden
+		}
+
+		.card-white {
+			background: var(--white);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, .04), 0 4px 20px rgba(0, 0, 0, .03)
+		}
+
+		.card-green {
+			background: var(--green-bg)
+		}
+
+		.card-navy {
+			background: var(--navy)
+		}
+
+		.card-gradient {
+			background: linear-gradient(135deg, var(--green-dark), var(--green))
+		}
+
+		/* ── ICON BADGE ── */
+		.ibadge {
+			width: 2.4em;
+			height: 2.4em;
+			border-radius: var(--radius-xs);
+			flex-shrink: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1em;
+		}
+
+		.ibadge-green {
+			background: var(--green-light);
+			color: var(--green-dark)
+		}
+
+		.ibadge-solid {
+			background: var(--green);
+			color: #fff
+		}
+
+		.ibadge-navy {
+			background: rgba(255, 255, 255, .08)
+		}
+
+		.ibadge-gold {
+			background: var(--gold-light);
+			color: var(--gold)
+		}
+
+		/* ── ANIM ── */
+		.slide.active .au {
+			animation: fadeUp .45s cubic-bezier(.25, .46, .45, .94) both
+		}
+
+		.slide.active .au:nth-child(1) {
+			animation-delay: .02s
+		}
+
+		.slide.active .au:nth-child(2) {
+			animation-delay: .07s
+		}
+
+		.slide.active .au:nth-child(3) {
+			animation-delay: .12s
+		}
+
+		.slide.active .au:nth-child(4) {
+			animation-delay: .17s
+		}
+
+		.slide.active .au:nth-child(5) {
+			animation-delay: .22s
+		}
+
+		.slide.active .au:nth-child(6) {
+			animation-delay: .27s
+		}
+
+		.slide.active .au:nth-child(7) {
+			animation-delay: .32s
+		}
+
+		.slide.active .au:nth-child(8) {
+			animation-delay: .37s
+		}
+
+		@keyframes fadeUp {
+			from {
+				opacity: 0;
+				transform: translateY(14px)
+			}
+
+			to {
+				opacity: 1;
+				transform: none
+			}
+		}
+
+		/* ── PROGRESS / NAV ── */
+		#pbar {
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			height: 3px;
+			background: var(--green);
+			transition: width .4s ease;
+			z-index: 100;
+			border-radius: 0 2px 2px 0
+		}
+
+		#counter {
+			position: fixed;
+			bottom: 12px;
+			right: 20px;
+			font-size: 11px;
+			font-weight: 700;
+			color: rgba(255, 255, 255, .3);
+			letter-spacing: .08em;
+			z-index: 100;
+			user-select: none
+		}
+
+		.nbtn {
+			display: none
+		}
+
+		/* ═══════════════════════════
+   S1 — COVER
+═══════════════════════════ */
+		#s1 {
+			background: var(--navy)
+		}
+
+		#s1 .wrap {
+			position: absolute;
+			inset: 0;
+			display: flex
+		}
+
+		#s1 .left {
+			width: 55%;
+			padding: 6% 3% 6% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			z-index: 2
+		}
+
+		#s1 .right {
+			flex: 1;
+			padding: 5.5% 5% 5.5% 2%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: .8em;
+			z-index: 2
+		}
+
+		#s1 h1 {
+			font-size: 3em;
+			font-weight: 800;
+			color: #fff;
+			margin: .5em 0 .55em
+		}
+
+		#s1 .sub {
+			font-size: .82em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .45);
+			line-height: 1.7;
+			max-width: 88%
+		}
+
+		#s1 .scard {
+			background: rgba(255, 255, 255, .04);
+			border: 1px solid rgba(255, 255, 255, .08);
+			border-radius: var(--radius-sm);
+			padding: 3% 4.5%;
+			transition: background .2s
+		}
+
+		#s1 .scard-lbl {
+			font-size: .58em;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .1em;
+			color: rgba(255, 255, 255, .35);
+			margin-bottom: .3em
+		}
+
+		#s1 .scard-val {
+			font-size: 1.5em;
+			font-weight: 800;
+			color: #fff;
+			letter-spacing: -.02em
+		}
+
+		#s1 .scard-val em {
+			color: var(--green);
+			font-style: normal
+		}
+
+		#s1 .scard-sub {
+			font-size: .62em;
+			font-weight: 500;
+			color: rgba(255, 255, 255, .35);
+			margin-top: .2em
+		}
+
+		/* decorative circle */
+		#s1::after {
+			content: '';
+			position: absolute;
+			right: -8%;
+			top: -15%;
+			width: 55%;
+			padding-top: 55%;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(52, 199, 89, .08) 0%, transparent 70%);
+			pointer-events: none
+		}
+
+		#s1::before {
+			content: '';
+			position: absolute;
+			left: -5%;
+			bottom: -10%;
+			width: 35%;
+			padding-top: 35%;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(229, 169, 19, .06) 0%, transparent 70%);
+			pointer-events: none
+		}
+
+		/* green accent line */
+		#s1 .accent-line {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 3px;
+			background: linear-gradient(90deg, var(--green), transparent)
+		}
+
+		/* ═══════════════════════════
+   S2 — PAIN
+═══════════════════════════ */
+		#s2 {
+			background: var(--white)
+		}
+
+		#s2 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s2 h2 {
+			font-size: 1.9em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 .25em
+		}
+
+		#s2 .sub {
+			font-size: .78em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.7;
+			max-width: 65%;
+			margin-bottom: 2.5%
+		}
+
+		#s2 .grid {
+			display: flex;
+			gap: 1.5%;
+		}
+
+		#s2 .pc {
+			flex: 1;
+			background: var(--gray-light);
+			border-radius: var(--radius);
+			padding: 3.5% 3.5%;
+			display: flex;
+			flex-direction: column;
+			gap: .4em;
+			border: 1px solid var(--gray-border)
+		}
+
+		#s2 .pc-icon {
+			font-size: 1.6em
+		}
+
+		#s2 .pc-title {
+			font-size: .85em;
+			font-weight: 700;
+			color: var(--text)
+		}
+
+		#s2 .pc-desc {
+			font-size: .72em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.6
+		}
+
+		/* ═══════════════════════════
+   S3 — PRODUCTS OVERVIEW
+═══════════════════════════ */
+		#s3 {
+			background: var(--gray-light)
+		}
+
+		#s3 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s3 h2 {
+			font-size: 1.9em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 2.5%
+		}
+
+		#s3 .grid {
+			display: flex;
+			gap: 2%;
+		}
+
+		#s3 .pcard {
+			flex: 1;
+			border-radius: var(--radius);
+			padding: 4% 4%;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			overflow: hidden
+		}
+
+		#s3 .pcard-1 {
+			background: var(--white);
+			border: 1px solid var(--gray-border)
+		}
+
+		#s3 .pcard-2 {
+			background: var(--navy)
+		}
+
+		#s3 .pcard-3 {
+			background: var(--white);
+			border: 1px solid var(--gray-border)
+		}
+
+		#s3 .pnum {
+			position: absolute;
+			right: 5%;
+			top: 4%;
+			font-size: 4em;
+			font-weight: 800;
+			opacity: .04;
+			color: var(--text)
+		}
+
+		#s3 .pcard-2 .pnum {
+			color: #fff
+		}
+
+		#s3 .ptitle {
+			font-size: 1.15em;
+			font-weight: 800;
+			margin: .45em 0 .35em;
+			letter-spacing: -.01em
+		}
+
+		#s3 .pcard-1 .ptitle,
+		#s3 .pcard-3 .ptitle {
+			color: var(--text)
+		}
+
+		#s3 .pcard-2 .ptitle {
+			color: #fff
+		}
+
+		#s3 .pdesc {
+			font-size: .76em;
+			font-weight: 400;
+			line-height: 1.65
+		}
+
+		#s3 .pcard-1 .pdesc,
+		#s3 .pcard-3 .pdesc {
+			color: var(--text-light)
+		}
+
+		#s3 .pcard-2 .pdesc {
+			color: rgba(255, 255, 255, .5)
+		}
+
+		#s3 .pfoot {
+			margin-top: auto;
+			padding-top: 5%;
+			font-size: .58em;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .08em
+		}
+
+		#s3 .pcard-1 .pfoot,
+		#s3 .pcard-3 .pfoot {
+			color: var(--green-dark)
+		}
+
+		#s3 .pcard-2 .pfoot {
+			color: var(--green)
+		}
+
+		/* ═══════════════════════════
+   S4 — TAHRIRCHI
+═══════════════════════════ */
+		#s4 {
+			background: var(--white)
+		}
+
+		#s4 .wrap {
+			position: absolute;
+			inset: 0;
+			display: flex
+		}
+
+		#s4 .left {
+			width: 44%;
+			background: var(--navy);
+			padding: 5% 5%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			position: relative;
+			overflow: hidden
+		}
+
+		#s4 .left::after {
+			content: '';
+			position: absolute;
+			right: -20%;
+			bottom: -20%;
+			width: 60%;
+			padding-top: 60%;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(52, 199, 89, .1) 0%, transparent 70%)
+		}
+
+		#s4 .right {
+			flex: 1;
+			padding: 5% 4.5%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: 2.5%
+		}
+
+		#s4 h2 {
+			font-size: 2.2em;
+			font-weight: 800;
+			color: #fff;
+			margin: .4em 0 .45em
+		}
+
+		#s4 .tagline {
+			font-size: .78em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .45);
+			line-height: 1.7;
+			max-width: 92%
+		}
+
+		#s4 .awards {
+			display: flex;
+			gap: 3%;
+			margin-top: 4%
+		}
+
+		#s4 .aw {
+			background: rgba(255, 255, 255, .05);
+			border: 1px solid rgba(255, 255, 255, .08);
+			border-radius: var(--radius-sm);
+			padding: 2.5% 3.5%;
+			text-align: center;
+			flex: 1
+		}
+
+		#s4 .aw-val {
+			font-size: .92em;
+			font-weight: 800;
+			color: #fff
+		}
+
+		#s4 .aw-lbl {
+			font-size: .52em;
+			font-weight: 600;
+			color: rgba(255, 255, 255, .35);
+			margin-top: .15em;
+			text-transform: uppercase;
+			letter-spacing: .06em
+		}
+
+		#s4 .feat {
+			display: flex;
+			align-items: flex-start;
+			gap: 3.5%
+		}
+
+		#s4 .feat-t {
+			font-size: .85em;
+			font-weight: 700;
+			color: var(--text);
+			margin-bottom: .15em
+		}
+
+		#s4 .feat-d {
+			font-size: .72em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.55
+		}
+
+		#s4 .corpus {
+			margin-top: 5%;
+			display: flex;
+			align-items: center;
+			gap: .6em
+		}
+
+		#s4 .corpus span {
+			font-size: .6em;
+			font-weight: 700;
+			color: var(--green);
+			text-transform: uppercase;
+			letter-spacing: .08em
+		}
+
+		/* ═══════════════════════════
+   S5 — TILMOCH
+═══════════════════════════ */
+		#s5 {
+			background: var(--white)
+		}
+
+		#s5 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 4.5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s5 .top {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			margin-bottom: 2%
+		}
+
+		#s5 h2 {
+			font-size: 2em;
+			font-weight: 800;
+			color: var(--text)
+		}
+
+		#s5 .top-sub {
+			font-size: .75em;
+			font-weight: 400;
+			color: var(--text-light);
+			max-width: 46%;
+			line-height: 1.6;
+			text-align: right
+		}
+
+		#s5 .qgrid {
+			display: flex;
+			gap: 1.8%;
+			margin-bottom: 2%
+		}
+
+		#s5 .qc {
+			flex: 1;
+			background: var(--green-bg);
+			border-radius: var(--radius-sm);
+			padding: 2% 2.5%;
+			text-align: center;
+			border: 1px solid rgba(52, 199, 89, .1)
+		}
+
+		#s5 .qbadge {
+			width: 2.2em;
+			height: 2.2em;
+			border-radius: 50%;
+			background: var(--gold);
+			color: #fff;
+			font-size: .85em;
+			font-weight: 800;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto .4em
+		}
+
+		#s5 .qlang {
+			font-size: .75em;
+			font-weight: 700;
+			color: var(--text)
+		}
+
+		#s5 .qdesc {
+			font-size: .58em;
+			font-weight: 500;
+			color: var(--text-light);
+			margin-top: .1em
+		}
+
+		#s5 .fgrid {
+			display: flex;
+			gap: 1.5%;
+		}
+
+		#s5 .fc {
+			flex: 1;
+			border: 1.5px solid var(--gray-border);
+			border-radius: var(--radius-sm);
+			padding: 2.5% 3%;
+			display: flex;
+			flex-direction: column;
+			gap: .3em
+		}
+
+		#s5 .fc-t {
+			font-size: .82em;
+			font-weight: 700;
+			color: var(--text)
+		}
+
+		#s5 .fc-d {
+			font-size: .7em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.55
+		}
+
+		/* ═══════════════════════════
+   S6 — DATA & AI
+═══════════════════════════ */
+		#s6 {
+			background: var(--navy)
+		}
+
+		#s6 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s6 h2 {
+			font-size: 1.9em;
+			font-weight: 800;
+			color: #fff;
+			margin: .2em 0 .25em
+		}
+
+		#s6 .sub {
+			font-size: .78em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .4);
+			line-height: 1.7;
+			max-width: 68%;
+			margin-bottom: 2.5%
+		}
+
+		#s6 .grid {
+			display: flex;
+			gap: 1.8%;
+		}
+
+		#s6 .sc {
+			flex: 1;
+			background: rgba(255, 255, 255, .04);
+			border: 1px solid rgba(255, 255, 255, .07);
+			border-radius: var(--radius);
+			padding: 3.5% 3.5%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s6 .sc-t {
+			font-size: .88em;
+			font-weight: 700;
+			color: #fff;
+			margin-bottom: .3em
+		}
+
+		#s6 .sc-d {
+			font-size: .72em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .4);
+			line-height: 1.6
+		}
+
+		#s6 .sc-tag {
+			margin-top: auto;
+			padding-top: 5%;
+			font-size: .56em;
+			font-weight: 700;
+			color: var(--green);
+			text-transform: uppercase;
+			letter-spacing: .08em
+		}
+
+		/* ═══════════════════════════
+   S7 — USE CASES
+═══════════════════════════ */
+		#s7 {
+			background: var(--gray-light)
+		}
+
+		#s7 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 4.5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s7 h2 {
+			font-size: 1.8em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 3%
+		}
+
+		#s7 .grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 3.5%
+		}
+
+		#s7 .uc {
+			background: var(--white);
+			border-radius: var(--radius-sm);
+			padding: 5% 5%;
+			border: 1px solid var(--gray-border)
+		}
+
+		#s7 .uc-prod {
+			font-size: .58em;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .1em;
+			color: var(--green-dark);
+			margin-bottom: .4em
+		}
+
+		#s7 .uc-dept {
+			font-size: .88em;
+			font-weight: 700;
+			color: var(--text);
+			margin-bottom: .3em
+		}
+
+		#s7 .uc-desc {
+			font-size: .72em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.55
+		}
+
+		/* ═══════════════════════════
+   S8 — TBC BANK
+═══════════════════════════ */
+		#s8 {
+			background: var(--white)
+		}
+
+		#s8 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 4.5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s8 .head {
+			display: flex;
+			align-items: center;
+			gap: 2%;
+			margin-bottom: 1%
+		}
+
+		#s8 .client-logo {
+			width: 14em;
+			height: 7em;
+			border-radius: var(--radius-sm);
+			flex-shrink: 0;
+			background: var(--green-bg);
+			border: 1.5px solid rgba(52, 199, 89, .15);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: .65em;
+			font-weight: 800;
+			color: var(--green-dark);
+			letter-spacing: .05em;
+		}
+
+		#s8 h2 {
+			font-size: 2em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 .3em
+		}
+
+		#s8 .intro {
+			font-size: .76em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.65;
+			max-width: 75%;
+			margin-bottom: 2%
+		}
+
+		#s8 .cards {
+			display: flex;
+			gap: 2%;
+		}
+
+		#s8 .ucard {
+			flex: 1;
+			background: var(--gray-light);
+			border-radius: var(--radius);
+			padding: 3.5% 3.5%;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--gray-border)
+		}
+
+		#s8 .ucard-prod {
+			font-size: .56em;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .1em;
+			color: var(--green-dark);
+			margin-bottom: .25em
+		}
+
+		#s8 .ucard-t {
+			font-size: .88em;
+			font-weight: 700;
+			color: var(--text);
+			margin-bottom: .3em
+		}
+
+		#s8 .ucard-d {
+			font-size: .72em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.55
+		}
+
+		/* ═══════════════════════════
+   S9 — ANORBANK & HAVAS (merged)
+═══════════════════════════ */
+		#s9 {
+			background: var(--white)
+		}
+
+		#s9 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 4.5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s9 h2 {
+			font-size: 1.9em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 2%
+		}
+
+		#s9 .grid {
+			display: flex;
+			gap: 2.5%;
+		}
+
+		.s9-col {
+			flex: 1;
+			background: var(--gray-light);
+			border-radius: var(--radius);
+			padding: 3.5% 4%;
+			display: flex;
+			flex-direction: column;
+			border: 1px solid var(--gray-border)
+		}
+
+		.s9-logo {
+			width: 3em;
+			height: 3em;
+			border-radius: var(--radius-xs);
+			overflow: hidden;
+			margin-bottom: .5em;
+			flex-shrink: 0
+		}
+
+		.s9-name {
+			font-size: .95em;
+			font-weight: 800;
+			color: var(--text);
+			margin-bottom: .2em
+		}
+
+		.s9-desc {
+			font-size: .7em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.55;
+			margin-bottom: .8em
+		}
+
+		.s9-items {
+			display: flex;
+			flex-direction: column;
+			gap: .5em
+		}
+
+		.s9-item {
+			display: flex;
+			flex-direction: column;
+			gap: .1em
+		}
+
+		.s9-it {
+			font-size: .75em;
+			font-weight: 700;
+			color: var(--text)
+		}
+
+		.s9-id {
+			font-size: .65em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.5
+		}
+
+		/* ═══════════════════════════
+   S11 — YANDEX
+═══════════════════════════ */
+		#s10 {
+			background: var(--white)
+		}
+
+		#s10 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 4.5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s10 .head {
+			display: flex;
+			align-items: center;
+			gap: 2%;
+			margin-bottom: .8%
+		}
+
+		#s10 h2 {
+			font-size: 1.9em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 .3em
+		}
+
+		#s10 .intro {
+			font-size: .76em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.65;
+			max-width: 78%;
+			margin-bottom: 2%
+		}
+
+		#s10 .grid {
+			display: flex;
+			gap: 2%;
+		}
+
+		#s10 .yc {
+			flex: 1;
+			border-radius: var(--radius);
+			padding: 3.5% 4%;
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			overflow: hidden
+		}
+
+		#s10 .yc-1 {
+			background: var(--navy)
+		}
+
+		#s10 .yc-2 {
+			background: var(--green-bg);
+			border: 1px solid rgba(52, 199, 89, .1)
+		}
+
+		#s10 .yc-3 {
+			background: linear-gradient(135deg, var(--green-dark), var(--green))
+		}
+
+		#s10 .yc-t {
+			font-size: .9em;
+			font-weight: 700;
+			margin-bottom: .3em
+		}
+
+		#s10 .yc-1 .yc-t {
+			color: #fff
+		}
+
+		#s10 .yc-2 .yc-t {
+			color: var(--text)
+		}
+
+		#s10 .yc-3 .yc-t {
+			color: #fff
+		}
+
+		#s10 .yc-d {
+			font-size: .72em;
+			font-weight: 400;
+			line-height: 1.6
+		}
+
+		#s10 .yc-1 .yc-d {
+			color: rgba(255, 255, 255, .45)
+		}
+
+		#s10 .yc-2 .yc-d {
+			color: var(--text-light)
+		}
+
+		#s10 .yc-3 .yc-d {
+			color: rgba(255, 255, 255, .85)
+		}
+
+		#s10 .yc-tag {
+			margin-top: auto;
+			padding-top: 4%;
+			font-size: .56em;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: .08em
+		}
+
+		#s10 .yc-1 .yc-tag {
+			color: var(--green)
+		}
+
+		#s10 .yc-2 .yc-tag {
+			color: var(--green-dark)
+		}
+
+		#s10 .yc-3 .yc-tag {
+			color: rgba(255, 255, 255, .9)
+		}
+
+		/* ═══════════════════════════
+   S11 — QUALITY
+═══════════════════════════ */
+		#s11 {
+			background: var(--white)
+		}
+
+		#s11 .ct {
+			position: absolute;
+			inset: 0;
+			padding: 4.5% 6%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center
+		}
+
+		#s11 h2 {
+			font-size: 1.9em;
+			font-weight: 800;
+			color: var(--text);
+			margin: .2em 0 .25em
+		}
+
+		#s11 .sub {
+			font-size: .76em;
+			font-weight: 400;
+			color: var(--text-light);
+			line-height: 1.65;
+			max-width: 68%;
+			margin-bottom: 2.5%
+		}
+
+		#s11 .row {
+			display: flex;
+			gap: 2%;
+		}
+
+		#s11 .bg {
+			flex: 1;
+			background: var(--gray-light);
+			border-radius: var(--radius);
+			padding: 3% 2.5%;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: flex-end;
+			border: 1px solid var(--gray-border)
+		}
+
+		#s11 .bars {
+			display: flex;
+			gap: 10%;
+			align-items: flex-end;
+			height: 8em;
+			margin-bottom: .5em
+		}
+
+		#s11 .bw {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: .25em
+		}
+
+		#s11 .bar {
+			width: 2em;
+			border-radius: 6px 6px 0 0
+		}
+
+		#s11 .bar-g {
+			background: linear-gradient(to top, var(--green-dark), var(--green))
+		}
+
+		#s11 .bar-x {
+			background: #D8DFE8
+		}
+
+		#s11 .bb {
+			width: 2em;
+			height: 2em;
+			border-radius: 50%;
+			background: var(--gold);
+			color: #fff;
+			font-size: .72em;
+			font-weight: 800;
+			display: flex;
+			align-items: center;
+			justify-content: center
+		}
+
+		#s11 .bl {
+			font-size: .68em;
+			font-weight: 700;
+			color: var(--text);
+			text-align: center
+		}
+
+		#s11 .bs {
+			font-size: .56em;
+			font-weight: 500;
+			color: var(--text-light);
+			text-align: center
+		}
+
+		#s11 .why {
+			flex: 1.3;
+			background: var(--navy);
+			border-radius: var(--radius);
+			padding: 3.5% 4%;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			gap: .5em
+		}
+
+		#s11 .why-t {
+			font-size: .78em;
+			font-weight: 700;
+			color: #fff
+		}
+
+		#s11 .why-d {
+			font-size: .65em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .4);
+			line-height: 1.65
+		}
+
+		#s11 .why-tag {
+			font-size: .56em;
+			font-weight: 700;
+			color: var(--green);
+			text-transform: uppercase;
+			letter-spacing: .08em
+		}
+
+		/* ═══════════════════════════
+   S12 — CTA
+═══════════════════════════ */
+		#s12 {
+			background: var(--navy)
+		}
+
+		#s12 .ct {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			padding: 5% 8%;
+			text-align: center
+		}
+
+		#s12 h2 {
+			font-size: 2.4em;
+			font-weight: 800;
+			color: #fff;
+			margin-bottom: .5em
+		}
+
+		#s12 .sub {
+			font-size: .8em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .4);
+			line-height: 1.7;
+			max-width: 62%;
+			margin-bottom: 3.5%
+		}
+
+		#s12 .grid {
+			display: flex;
+			gap: 1.8%;
+			width: 100%
+		}
+
+		#s12 .cc {
+			flex: 1;
+			background: rgba(255, 255, 255, .04);
+			border: 1px solid rgba(255, 255, 255, .07);
+			border-radius: var(--radius);
+			padding: 3% 3.5%;
+			text-align: left
+		}
+
+		#s12 .cc-t {
+			font-size: .75em;
+			font-weight: 700;
+			color: #fff;
+			margin-bottom: .25em
+		}
+
+		#s12 .cc-d {
+			font-size: .62em;
+			font-weight: 400;
+			color: rgba(255, 255, 255, .4);
+			line-height: 1.55
+		}
+
+		#s12 .foot {
+			margin-top: 5%;
+			font-size: .68em;
+			font-weight: 500;
+			color: rgba(255, 255, 255, .2)
+		}
+
+		#s12 .foot em {
+			color: var(--green);
+			font-style: normal
+		}
+
+		#s12::after {
+			content: '';
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 60%;
+			padding-top: 60%;
+			border-radius: 50%;
+			background: radial-gradient(circle, rgba(52, 199, 89, .06) 0%, transparent 60%);
+			pointer-events: none
+		}
+
+		/* top accent */
+		#s12 .accent-top {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 3px;
+			background: linear-gradient(90deg, transparent, var(--green), transparent)
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="deck" id="deck">
+
+		<!-- S1 — COVER -->
+		<div class="slide" id="s1">
+			<div class="accent-line"></div>
+			<div class="brand">
+				<img src="logo-white-tilmoch.svg" alt="Tilmoch.ai" />
+			</div>
+			<div class="wrap">
+				<div class="left">
+					<div class="eyebrow eyebrow-gold au">Bank yechimlari</div>
+					<h1 class="au"><em>Oʻzbek</em> tili uchun<br />sunʼiy intellektga asoslangan<br />bank yechimlari
+					</h1>
+					<p class="sub au">Hujjat sifati, tarjima va AI tayyorgarligi boʻyicha uchta xususiy vositani taqdim
+						etamiz — Markaziy Osiyo tillari uchun maxsus ishlab chiqqanmiz.</p>
+				</div>
+				<div class="right">
+					<div class="scard au">
+						<div class="scard-lbl">Xususiy modellar</div>
+						<div class="scard-val">3 ta <em>mahsulot</em></div>
+						<div class="scard-sub">Oʻzbek va qoraqalpoq tillari uchun</div>
+					</div>
+					<div class="scard au">
+						<div class="scard-lbl">Google Translate bilan solishtirganda</div>
+						<div class="scard-val"><em>2×–3×</em> aniqroq</div>
+						<div class="scard-sub">Ekspertlar tomonidan tasdiqlangan</div>
+					</div>
+					<div class="scard au">
+						<div class="scard-lbl">Korporativ mijozlar</div>
+						<div class="scard-val" style="font-size:1.1em">TBC · Yandex · AnorBank</div>
+						<div class="scard-sub">Havas · Kinopoisk · YanGo</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S2 — PAIN -->
+		<div class="slide pat-green" id="s2">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="eyebrow eyebrow-green au">Muammo</div>
+				<h2 class="au">Oʻzbekistonda har bir bank odatda <em>ikki tilda</em> ishlaydi</h2>
+				<p class="sub au">Bitta xato soʻz ishonchni buzadi. Notoʻgʻri tarjima esa huquqiy xavf tugʻdiradi.</p>
+				<div class="grid">
+					<div class="pc au">
+						<div class="pc-icon">📝</div>
+						<div class="pc-title">Imlo va sifat</div>
+						<div class="pc-desc">Standart vositalar oʻzbek morfologiyasidagi xatolarni topa olmaydi — biz
+							buni hal qilamiz.</div>
+					</div>
+					<div class="pc au">
+						<div class="pc-icon">⚖️</div>
+						<div class="pc-title">Huquqiy tarjima</div>
+						<div class="pc-desc">Oddiy tarjimonlar huquqiy hujjatlardagi nozik maʼnolarni yoʻqotib qoʻyadi.
+						</div>
+					</div>
+					<div class="pc au">
+						<div class="pc-icon">🗣️</div>
+						<div class="pc-title">Qoraqalpoq tili kamchiligi</div>
+						<div class="pc-desc">Hozirgacha qoraqalpoq tili uchun ishlab chiqarishga tayyor vosita mavjud
+							emas edi.</div>
+					</div>
+					<div class="pc au">
+						<div class="pc-icon">🤖</div>
+						<div class="pc-title">AI infratuzilmasi</div>
+						<div class="pc-desc">Oʻzbekcha AI yaratish uchun sifatli oʻquv maʼlumotlari tayyor holda
+							topilmaydi.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S3 — PRODUCTS OVERVIEW -->
+		<div class="slide" id="s3">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="eyebrow eyebrow-green au">Bizning yechimlar</div>
+				<h2 class="au">Uchta xususiy AI vositani taklif qilamiz</h2>
+				<div class="grid">
+					<div class="pcard pcard-1 au">
+						<div class="pnum">01</div>
+						<div class="ibadge ibadge-green" style="font-size:.85em">🔤</div>
+						<div class="ptitle">Tahrirchi</div>
+						<div class="pdesc">Oʻzbek morfologiyasini tushunadigan AI imlo tekshiruvchisidir.</div>
+						<div class="pfoot">MS Word · Brauzer · Veb · Telegram</div>
+					</div>
+					<div class="pcard pcard-2 au">
+						<div class="pnum">02</div>
+						<div class="ibadge ibadge-solid" style="font-size:.85em">🌐</div>
+						<div class="ptitle">Tilmoch</div>
+						<div class="pdesc">Oʻzbekcha ↔ ruscha / inglizcha / qoraqalpoqcha professional tarjimani
+							taʼminlaymiz.</div>
+						<div class="pfoot">Googleʼdan 2–3 marta aniqroq</div>
+					</div>
+					<div class="pcard pcard-3 au">
+						<div class="pnum">03</div>
+						<div class="ibadge ibadge-green" style="font-size:.85em">⚙️</div>
+						<div class="ptitle">Maʼlumot va AI xizmatlari</div>
+						<div class="pdesc">Maxsus datasetlar tayyorlaymiz, annotatsiya va mahalliy AI modellarni
+							oʻqitamiz.</div>
+						<div class="pfoot">TTS · STT · LLM · ASR · NER</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S4 — TAHRIRCHI -->
+		<div class="slide" id="s4">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="wrap">
+				<div class="left">
+					<div class="eyebrow eyebrow-outline au" style="align-self:flex-start">Mahsulot 01</div>
+					<h2 class="au">Tahrirchi</h2>
+					<p class="tagline au">Oʻzbek tili uchun Grammarly — 50 GB+ matnda oʻqitilgan AI modelimizdir.</p>
+					<div class="awards au">
+						<div class="aw">
+							<div class="aw-val">$100k</div>
+							<div class="aw-lbl">Texnologik mukofot</div>
+						</div>
+						<div class="aw">
+							<div class="aw-val">$50k</div>
+							<div class="aw-lbl">Texnologik mukofot</div>
+						</div>
+						<div class="aw">
+							<div class="aw-val">$2k</div>
+							<div class="aw-lbl">TikTok tanlov</div>
+						</div>
+					</div>
+					<div class="corpus au">
+						<div class="ibadge ibadge-solid" style="width:1.8em;height:1.8em;font-size:.7em">📚</div>
+						<span>Eng katta oʻzbek monokorpusini yaratganmiz · 50 GB+</span>
+					</div>
+				</div>
+				<div class="right">
+					<div class="feat au">
+						<div class="ibadge ibadge-green" style="font-size:.8em">✅</div>
+						<div>
+							<div class="feat-t">Grammatika va imlo</div>
+							<div class="feat-d">6+ qoʻshimchali murakkab soʻzlarni ham tekshira olamiz.</div>
+						</div>
+					</div>
+					<div class="feat au">
+						<div class="ibadge ibadge-green" style="font-size:.8em">📄</div>
+						<div>
+							<div class="feat-t">MS Word plagini</div>
+							<div class="feat-d">Word ichida toʻgʻridan-toʻgʻri tuzatamiz — ish jarayoni oʻzgarmaydi.
+							</div>
+						</div>
+					</div>
+					<div class="feat au">
+						<div class="ibadge ibadge-green" style="font-size:.8em">🌐</div>
+						<div>
+							<div class="feat-t">Brauzer kengaytmasi va veb</div>
+							<div class="feat-d">Elektron pochta, CRM va veb-formalarda qoʻllab-quvvatlaymiz.</div>
+						</div>
+					</div>
+					<div class="feat au">
+						<div class="ibadge ibadge-green" style="font-size:.8em">🏦</div>
+						<div>
+							<div class="feat-t">Banklar uchun</div>
+							<div class="feat-d">Brendingizni himoya qilamiz va muvofiqlik xavfini kamaytiramiz.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S5 — TILMOCH -->
+		<div class="slide" id="s5">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="top">
+					<div>
+						<div class="eyebrow eyebrow-green au">Mahsulot 02</div>
+						<h2 class="au">Tilmoch tarjimon</h2>
+					</div>
+					<p class="top-sub au">Oʻzbek va qoraqalpoq tillari uchun professional aniqlikni taʼminlaymiz.</p>
+				</div>
+				<div class="qgrid au">
+					<div class="qc">
+						<div class="qbadge">2×</div>
+						<div class="qlang">Ruscha → Oʻzbekcha</div>
+						<div class="qdesc">Ikki barobar aniqroqdir</div>
+					</div>
+					<div class="qc">
+						<div class="qbadge">1.5×</div>
+						<div class="qlang">Inglizcha → Oʻzbekcha</div>
+						<div class="qdesc">1,5 barobar aniqroqdir</div>
+					</div>
+					<div class="qc">
+						<div class="qbadge">3×</div>
+						<div class="qlang">Oʻzbekcha → Qoraqalpoqcha</div>
+						<div class="qdesc">Uch barobar aniqroqdir</div>
+					</div>
+				</div>
+				<div class="fgrid">
+					<div class="fc au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.3em">⚖️</div>
+						<div class="fc-t">Huquqiy va muvofiqlik</div>
+						<div class="fc-d">Shartnomalar va qoidalarni huquqiy maʼnosini saqlab tarjima qilamiz.</div>
+					</div>
+					<div class="fc au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.3em">🗺️</div>
+						<div class="fc-t">Qoraqalpoqcha qoʻllab-quvvatlash</div>
+						<div class="fc-d">Bozordagi yagona ishlab chiqarishga tayyor qoraqalpoqcha tarjima vositasini
+							yaratganmiz.</div>
+					</div>
+					<div class="fc au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.3em">🔌</div>
+						<div class="fc-t">API integratsiyasi</div>
+						<div class="fc-d">REST API orqali CRM va ichki vositalaringizga ulashingiz mumkin.</div>
+					</div>
+					<div class="fc au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.3em">📊</div>
+						<div class="fc-t">Ekspertlar tasdiqlagan</div>
+						<div class="fc-d">Google va Yandex bilan solishtirilganda 2 barobar afzal deb baholangan.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S6 — DATA & AI -->
+		<div class="slide pat-navy" id="s6">
+			<div class="brand"><img src="logo-white-tilmoch.svg" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="eyebrow eyebrow-dark au">Mahsulot 03</div>
+				<h2 class="au">Maʼlumot va AI xizmatlari</h2>
+				<p class="sub au">Sifatli oʻquv maʼlumotlarini tayyorlaymiz, annotatsiya qilamiz va modellarni oʻqitamiz
+					— bir necha oy tezroq.</p>
+				<div class="grid">
+					<div class="sc au">
+						<div class="ibadge ibadge-navy" style="font-size:.8em;margin-bottom:.5em">🎙️</div>
+						<div class="sc-t">Nutq maʼlumotlari (TTS va STT)</div>
+						<div class="sc-d">Ovozli yordamchilar va nutqni aniqlash uchun oʻzbek nutq datasetlarini
+							tayyorlaymiz.</div>
+						<div class="sc-tag">TBC Bankda faol ishlatilmoqda</div>
+					</div>
+					<div class="sc au">
+						<div class="ibadge ibadge-navy" style="font-size:.8em;margin-bottom:.5em">📚</div>
+						<div class="sc-t">Parallel matn korpuslari</div>
+						<div class="sc-d">Oʻzbekcha–ruscha, inglizcha, qoraqalpoqcha annotatsiyalangan parallel
+							datasetlarni taqdim etamiz.</div>
+						<div class="sc-tag">50 GB+ oʻzbek monokorpusi</div>
+					</div>
+					<div class="sc au">
+						<div class="ibadge ibadge-navy" style="font-size:.8em;margin-bottom:.5em">🧠</div>
+						<div class="sc-t">Maxsus model oʻqitish</div>
+						<div class="sc-d">Sizning infratuzilmangizda mahalliy modellarni oʻqitamiz — on-premise
+							joylashtiramiz.</div>
+						<div class="sc-tag">On-premise mavjud</div>
+					</div>
+					<div class="sc au">
+						<div class="ibadge ibadge-navy" style="font-size:.8em;margin-bottom:.5em">🔍</div>
+						<div class="sc-t">Maʼlumotlar annotatsiyasi</div>
+						<div class="sc-d">Markaziy Osiyo tillari boʻyicha ekspert annotatorlarimiz xizmat koʻrsatadi.
+						</div>
+						<div class="sc-tag">LLM · ASR · NER · NLU</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S7 — USE CASES -->
+		<div class="slide" id="s7">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="eyebrow eyebrow-green au">Qoʻllanish holatlari</div>
+				<h2 class="au">Banklar vositalarimizdan qanday foydalanmoqda</h2>
+				<div class="grid">
+					<div class="uc au">
+						<div class="uc-prod">Tahrirchi</div>
+						<div class="uc-dept">Mijozlarga xizmat</div>
+						<div class="uc-desc">Operatorlar professional oʻzbekchada yozishadi — brend sifatini himoya
+							qilamiz.</div>
+					</div>
+					<div class="uc au">
+						<div class="uc-prod">Tilmoch</div>
+						<div class="uc-dept">Huquqiy va muvofiqlik</div>
+						<div class="uc-desc">Shartnomalarni huquqiy maʼnosini saqlab tarjima qilamiz.</div>
+					</div>
+					<div class="uc au">
+						<div class="uc-prod">Tilmoch</div>
+						<div class="uc-dept">Mintaqaviy xizmat</div>
+						<div class="uc-desc">Qoraqalpoq mijozlariga ona tilida sifatli xizmat koʻrsatamiz.</div>
+					</div>
+					<div class="uc au">
+						<div class="uc-prod">Tahrirchi</div>
+						<div class="uc-dept">Marketing</div>
+						<div class="uc-desc">Nashr etishdan oldin barcha matnlarni tekshirib beramiz.</div>
+					</div>
+					<div class="uc au">
+						<div class="uc-prod">Tilmoch</div>
+						<div class="uc-dept">Xalqaro boʻlim</div>
+						<div class="uc-desc">Xorijiy hamkorlar bilan yozishmalarni ravon olib boramiz.</div>
+					</div>
+					<div class="uc au">
+						<div class="uc-prod">Maʼlumot va AI</div>
+						<div class="uc-dept">AI jamoalari</div>
+						<div class="uc-desc">Maxsus datasetlar tayyorlaymiz va modellarni oʻqitamiz.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S8 — TBC BANK -->
+		<div class="slide" id="s8">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="head">
+					<div class="client-logo"><img src="tbc.svg" alt="TBC Bank" style="width:70%;height:auto" /></div>
+					<div>
+						<div class="eyebrow eyebrow-green au">Keys-stadi 01</div>
+						<h2 class="au">TBC Bank</h2>
+					</div>
+				</div>
+				<p class="intro au">Barcha uchta mahsulotimizdan korporativ miqyosda foydalanayotgan yagona bankdir.</p>
+				<div class="cards">
+					<div class="ucard au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.4em">✍️</div>
+						<div class="ucard-prod">Tahrirchi</div>
+						<div class="ucard-t">Brend sifati</div>
+						<div class="ucard-d">Har bir oʻzbekcha matn professional standartlarga javob berishini
+							taʼminlaymiz.</div>
+					</div>
+					<div class="ucard au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.4em">⚖️</div>
+						<div class="ucard-prod">Tilmoch</div>
+						<div class="ucard-t">Huquqiy tarjima</div>
+						<div class="ucard-d">Katta hajmdagi hujjatlarni AI yordamida tarjima va tahlil qilamiz.</div>
+					</div>
+					<div class="ucard au">
+						<div class="ibadge ibadge-green" style="font-size:.8em;margin-bottom:.4em">🎙️</div>
+						<div class="ucard-prod">Maʼlumot va AI</div>
+						<div class="ucard-t">Nutq va LLM datasetlari</div>
+						<div class="ucard-d">TTS, STT va LLM datasetlarini annotatsiya qilamiz — AI infratuzilma
+							poydevorini quramiz.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S9 — ANORBANK & HAVAS -->
+		<div class="slide" id="s9">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="eyebrow eyebrow-green au">Keys-stadi 02 & 03</div>
+				<h2 class="au">AnorBank va <em>Havas</em></h2>
+				<div class="grid" style="gap:2.5%">
+					<div class="s9-col au">
+						<div class="s9-logo"><img src="anorbank.jpg" alt="AnorBank"
+								style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-xs)" /></div>
+						<div class="s9-name">AnorBank</div>
+						<div class="s9-desc">Oʻzbekcha, qoraqalpoqcha va ruscha xizmat koʻrsatadi — ikki tillilik
+							operatsion infratuzilma hisoblanadi.</div>
+						<div class="s9-items">
+							<div class="s9-item"><span class="s9-it">🔄 Hujjat tarjimasi</span><span
+									class="s9-id">Rasmiy materiallarni professional registrda tarjima qilamiz</span>
+							</div>
+							<div class="s9-item"><span class="s9-it">🗺️ Qoraqalpoqcha xizmat</span><span
+									class="s9-id">Qoraqalpoq tilida keng miqyosda xizmat koʻrsatamiz</span></div>
+							<div class="s9-item"><span class="s9-it">💬 Sifat nazorati</span><span class="s9-id">Barcha
+									aloqa nuqtalarida izchil kommunikatsiyani taʼminlaymiz</span></div>
+						</div>
+					</div>
+					<div class="s9-col au">
+						<div class="s9-logo"><img src="havas.jpg" alt="Havas"
+								style="width:100%;height:100%;object-fit:cover;border-radius:var(--radius-xs)" /></div>
+						<div class="s9-name">Havas</div>
+						<div class="s9-desc">Kommunikatsiya va moliyaviy xizmatlar guruhi — koʻp tilli sifatni saqlashda
+							yordam beramiz.</div>
+						<div class="s9-items">
+							<div class="s9-item"><span class="s9-it">📋 Hujjat tarjimasi</span><span
+									class="s9-id">Yuqori hajmli API orqali oʻzbekcha–ruscha tarjima qilamiz</span></div>
+							<div class="s9-item"><span class="s9-it">🗺️ Qoraqalpoqcha</span><span
+									class="s9-id">Bozordagi yagona ishlab chiqarishga tayyor vositani taqdim
+									etamiz</span></div>
+							<div class="s9-item"><span class="s9-it">💬 Brend sifati</span><span class="s9-id">Barcha
+									tashqi kommunikatsiyalarda professional oʻzbekchani taʼminlaymiz</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S10 — YANDEX -->
+		<div class="slide" id="s10">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="head">
+					<div class="client-logo" style="overflow:hidden;padding:0"><img src="yango.jpg" alt="Yandex"
+							style="width:100%;height:100%;object-fit:cover" /></div>
+					<div>
+						<div class="eyebrow eyebrow-green au">Keys-stadi 03</div>
+						<h2 class="au">Yandex — Global texnologik standart</h2>
+					</div>
+				</div>
+				<p class="intro au">Yandex bizning modellarimizni tanlagan — chunki bu tillar uchun boshqa yechim shu
+					darajada ishlamaydi.</p>
+				<div class="grid">
+					<div class="yc yc-1 au">
+						<div
+							style="width:2em;height:2em;border-radius:var(--radius-xs);overflow:hidden;margin-bottom:.4em;flex-shrink:0">
+							<img src="yango.jpg" alt="YanGo" style="width:100%;height:100%;object-fit:cover" />
+						</div>
+						<div class="yc-t">YanGo taksi xizmati</div>
+						<div class="yc-d">YanGo ilovasini oʻzbek, qozoq va turk tillariga mahalliylashtirganmiz —
+							millionlab foydalanuvchi har kuni tarjimamizni ishlatishadi</div>
+						<div class="yc-tag">3 til · Ishlab chiqarishda faol</div>
+					</div>
+					<div class="yc yc-2 au">
+						<div
+							style="width:2em;height:2em;border-radius:var(--radius-xs);overflow:hidden;margin-bottom:.4em;flex-shrink:0">
+							<img src="kinopoisk.jpg" alt="Kinopoisk" style="width:100%;height:100%;object-fit:cover" />
+						</div>
+						<div class="yc-t">Kinopoisk</div>
+						<div class="yc-d">Filmlarni oʻzbek tiliga tarjima va dublyaj qilamiz — birinchi marta keng
+							miqyosda amalga oshiryapmiz.</div>
+						<div class="yc-tag">Tarjima + Dublyaj</div>
+					</div>
+					<div class="yc yc-3 au">
+						<div class="ibadge ibadge-solid"
+							style="font-size:.8em;margin-bottom:.5em;background:rgba(255,255,255,.2)">🏆</div>
+						<div class="yc-t">Siz uchun nimani anglatadi</div>
+						<div class="yc-d">Global texnologik gigant ishongan modellarimiz bankingiz uchun ham tayyordir.
+						</div>
+						<div class="yc-tag">Korporativ darajada ishonchlilik</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S11 — QUALITY -->
+		<div class="slide" id="s11">
+			<div class="brand"><img src="logo-tilmoch.png" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<div class="eyebrow eyebrow-green au">Benchmark natijalari</div>
+				<h2 class="au">Tarjima sifati — <em>ekspertlar</em> tomonidan tasdiqlangan</h2>
+				<p class="sub au">Google va Yandex Translate bilan yakkama-yakka solishtirib koʻrsatganmiz.</p>
+				<div class="row">
+					<div class="bg au">
+						<div class="bars">
+							<div class="bw">
+								<div class="bb">2×</div>
+								<div class="bar bar-g" style="height:7em"></div>
+							</div>
+							<div class="bw">
+								<div style="width:2em;height:2em"></div>
+								<div class="bar bar-x" style="height:3.5em"></div>
+							</div>
+							<div class="bw">
+								<div style="width:2em;height:2em"></div>
+								<div class="bar bar-x" style="height:2.8em"></div>
+							</div>
+						</div>
+						<div class="bl">Ruscha → Oʻzbekcha</div>
+						<div class="bs">Ikki barobar aniqroq</div>
+					</div>
+					<div class="bg au">
+						<div class="bars">
+							<div class="bw">
+								<div class="bb">1.5×</div>
+								<div class="bar bar-g" style="height:6em"></div>
+							</div>
+							<div class="bw">
+								<div style="width:2em;height:2em"></div>
+								<div class="bar bar-x" style="height:4em"></div>
+							</div>
+							<div class="bw">
+								<div style="width:2em;height:2em"></div>
+								<div class="bar bar-x" style="height:3.2em"></div>
+							</div>
+						</div>
+						<div class="bl">Inglizcha → Oʻzbekcha</div>
+						<div class="bs">1,5 barobar aniqroq</div>
+					</div>
+					<div class="bg au">
+						<div class="bars">
+							<div class="bw">
+								<div class="bb">3×</div>
+								<div class="bar bar-g" style="height:8em"></div>
+							</div>
+							<div class="bw">
+								<div style="width:2em;height:2em"></div>
+								<div class="bar bar-x" style="height:2.6em"></div>
+							</div>
+						</div>
+						<div class="bl">Oʻzbekcha → Qoraqalpoqcha</div>
+						<div class="bs">Uch barobar aniqroq</div>
+					</div>
+					<div class="why au">
+						<div class="why-t">Farq nima uchun shuncha katta?</div>
+						<div class="why-d">Umumiy vositalar oʻzbek tiliga yetarli xizmat koʻrsata olmaydi. Biz esa
+							modellarimizni turkiy morfologiya va professional kontekst uchun maxsus oʻqitganmiz.</div>
+						<div class="why-tag">Xususiy modellar · Oʻralgan API emas</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- S12 — CTA -->
+		<div class="slide" id="s12">
+			<div class="accent-top"></div>
+			<div class="brand"><img src="logo-white-tilmoch.svg" alt="Tilmoch.ai" /></div>
+			<div class="ct">
+				<h2 class="au"><em>Sifatliroq</em> oʻzbekcha<br />bank xizmatini birga quraylik</h2>
+				<p class="sub au">Biz Toshkentda joylashgan kompaniyamiz. Oʻzbek NLP ni noldan, oʻz modellarimiz bilan
+					qurganmiz.</p>
+				<div class="grid">
+					<div class="cc au">
+						<div class="ibadge ibadge-solid" style="font-size:.8em;margin-bottom:.4em">⚡</div>
+						<div class="cc-t">Bir necha kunda boshlaymiz</div>
+						<div class="cc-d">Murakkab integratsiya talab qilinmaydi.</div>
+					</div>
+					<div class="cc au">
+						<div class="ibadge ibadge-solid" style="font-size:.8em;margin-bottom:.4em">🧪</div>
+						<div class="cc-t">Avval sinab koʻring</div>
+						<div class="cc-d">Har bir yechim uchun ikki haftalik sinovni taklif qilamiz.</div>
+					</div>
+					<div class="cc au">
+						<div class="ibadge ibadge-solid" style="font-size:.8em;margin-bottom:.4em">🔒</div>
+						<div class="cc-t">Maʼlumot xavfsizligʻi</div>
+						<div class="cc-d">On-premise joylashtirib berolamiz — maʼlumotlaringiz ichki tarmoqda qoladi.
+						</div>
+					</div>
+					<div class="cc au">
+						<div class="ibadge ibadge-solid" style="font-size:.8em;margin-bottom:.4em">📈</div>
+						<div class="cc-t">Qulay narxlar</div>
+						<div class="cc-d">Obuna va API narxlarini taklif qilamiz. Korporativ shartlar mavjud.</div>
+					</div>
+				</div>
+				<div class="foot au">tilmoch.ai &nbsp;·&nbsp; <em>Toshkent, Oʻzbekiston</em> &nbsp;·&nbsp; Xususiy AI
+					modellar</div>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- NAV -->
+	<div id="pbar"></div>
+	<div id="counter">1 / 12</div>
+	<button class="nbtn" id="np" aria-label="Oldingi"><svg width="14" height="14" viewBox="0 0 24 24">
+			<polyline points="15 18 9 12 15 6" />
+		</svg></button>
+	<button class="nbtn" id="nn" aria-label="Keyingi"><svg width="14" height="14" viewBox="0 0 24 24">
+			<polyline points="9 18 15 12 9 6" />
+		</svg></button>
+
+	<script>
+		const S = document.querySelectorAll('.slide'), T = S.length; let c = 0, busy = false;
+		function go(n, d) {
+			if (busy || n < 0 || n >= T) return; busy = true;
+			const p = S[c], x = S[n];
+			p.classList.remove('active'); p.classList.add('exit');
+			x.querySelectorAll('.au').forEach(e => { e.style.animation = 'none'; e.offsetHeight; e.style.animation = '' });
+			x.style.cssText += `;transform:translateX(${d > 0 ? 40 : -40}px) scale(0.98);opacity:0;transition:none`;
+			x.classList.add('active');
+			requestAnimationFrame(() => requestAnimationFrame(() => {
+				x.style.transform = ''; x.style.opacity = ''; x.style.transition = '';
+			}));
+			setTimeout(() => { p.classList.remove('exit'); busy = false }, 500);
+			c = n;
+			document.getElementById('pbar').style.width = ((c + 1) / T * 100) + '%';
+			document.getElementById('counter').textContent = (c + 1) + ' / ' + T;
+		}
+		document.getElementById('nn').onclick = () => go(c + 1, 1);
+		document.getElementById('np').onclick = () => go(c - 1, -1);
+		document.addEventListener('keydown', e => {
+			if (['ArrowRight', 'ArrowDown', ' '].includes(e.key)) { e.preventDefault(); go(c + 1, 1) }
+			if (['ArrowLeft', 'ArrowUp'].includes(e.key)) { e.preventDefault(); go(c - 1, -1) }
+		});
+		let tx = 0;
+		document.addEventListener('touchstart', e => { tx = e.touches[0].clientX });
+		document.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].clientX; if (Math.abs(d) > 50) go(c + (d > 0 ? 1 : -1), d > 0 ? 1 : -1) });
+		S[0].classList.add('active');
+		document.getElementById('pbar').style.width = (1 / T * 100) + '%';
+	</script>
+</body>
+
+</html>
